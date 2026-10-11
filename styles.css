@@ -223,7 +223,7 @@ html.theming *:not(.arc__arm):not(.arc__glow):not(.arc__dot) { transition: backg
 
 /* Orbita: 7 yo'nalish bitta raqam atrofida */
 .hero__vis { overflow: hidden; margin: -24px -16px; padding: 24px 16px; }
-.hub { position: relative; width: min(100%, 400px); aspect-ratio: 1 / 1.22; margin: 0 auto; }
+.hub { --half: 27%; --gap: 7px; position: relative; width: min(100%, 400px); aspect-ratio: 1 / 1.22; margin: 0 auto; }
 .hub__glow, .hub__r, .hub__sat, .hub__core { position: absolute; left: 50%; top: 50%; aspect-ratio: 1; border-radius: 50%; transform: translate(-50%, -50%); }
 .hub__glow { width: 96%; background: radial-gradient(circle, var(--glow), rgba(76, 175, 80, 0) 66%); animation: hubBreathe 6s ease-in-out infinite; translate: calc(var(--px, 0) * 40px) calc(var(--py, 0) * 40px); transition: translate .7s var(--ease); }
 @keyframes breathe { 50% { transform: scale(1.1); opacity: .65; } }
@@ -238,7 +238,7 @@ html.theming *:not(.arc__arm):not(.arc__glow):not(.arc__dot) { transition: backg
 .hub__sat i { position: absolute; left: 50%; top: 0; width: 9px; height: 9px; margin: -4.5px; border-radius: 50%; background: var(--light); box-shadow: 0 0 0 4px var(--tint), 0 0 14px var(--glow); }
 .hub__sat i:nth-child(2) { left: 93.3%; top: 75%; }
 .hub__sat i:nth-child(3) { left: 6.7%; top: 75%; }
-.hub__core { width: 54%; z-index: 1; background: var(--card); box-shadow: var(--disc), 0 22px 54px var(--glow); display: grid; place-items: center; animation: coreIn 1s var(--ease) both; animation-delay: calc(var(--d0) + .15s); }
+.hub__core { width: calc(var(--half) * 2); z-index: 1; background: var(--card); box-shadow: var(--disc), 0 22px 54px var(--glow); display: grid; place-items: center; animation: coreIn 1s var(--ease) both; animation-delay: calc(var(--d0) + .15s); }
 @keyframes coreIn { from { opacity: 0; transform: translate(-50%, -50%) scale(.72); } }
 .hub__core::before, .hub__core::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 1.5px solid var(--light); opacity: 0; animation: ripple 3s ease-out infinite; pointer-events: none; }
 .hub__core::after { animation-delay: 1.5s; }
@@ -246,8 +246,13 @@ html.theming *:not(.arc__arm):not(.arc__glow):not(.arc__dot) { transition: backg
 .hub__core i { position: absolute; inset: 9px; border-radius: 50%; border: 1px solid var(--line); }
 .hub__core img { position: relative; width: 76%; }
 .hub__item { position: absolute; z-index: 2; left: var(--mx); top: var(--my); transform: translate(-50%, -50%); }
+/* o'ng va chap yondagi tugma doira chetiga yopishib turadi */
+.hub .hub__item--r { left: calc(50% + var(--half) + var(--gap)); top: 50%; transform: translate(0, -50%); }
+.hub .hub__item--l { left: auto; right: calc(50% + var(--half) + var(--gap)); top: 50%; transform: translate(0, -50%); }
 .hub__pill { display: flex; align-items: center; gap: 8px; padding: 6px 14px 6px 6px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); background: color-mix(in srgb, var(--card) 88%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: var(--shadow); font-weight: 800; font-size: 13px; line-height: 1.2; white-space: nowrap; animation: pillIn .8s var(--ease) both, bob 6s ease-in-out infinite; animation-delay: calc(var(--d0) + .5s + var(--i) * 90ms), calc(var(--i) * -1.1s); translate: calc(var(--px, 0) * -24px) calc(var(--py, 0) * -24px); transition: translate .7s var(--ease), border-color .3s, box-shadow .3s; }
 .hub__pill .disc { width: 32px; height: 32px; font-size: 16px; transition: background-color .3s, color .3s; }
+/* yon tomonda joy tor: telefonda ikonka ustida, yozuv tagida */
+.hub__item--r .hub__pill, .hub__item--l .hub__pill { flex-direction: column; gap: 3px; padding: 6px 8px 7px; border-radius: 18px; font-size: 11.5px; }
 .hub__pill:hover { border-color: var(--light); box-shadow: var(--shadow-lg); animation-play-state: running, paused; }
 .hub__pill:hover .disc { background: var(--green); color: var(--on); }
 @keyframes pillIn { from { opacity: 0; filter: blur(8px); } }
@@ -413,6 +418,9 @@ html.theming *:not(.arc__arm):not(.arc__glow):not(.arc__dot) { transition: backg
 .clink small { display: block; font-size: 10.5px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--mute); }
 .clink b { font-size: 16px; }
 .clink > svg { margin-left: auto; font-size: 20px; color: var(--light); }
+.clink--big { padding: 18px 20px; gap: 16px; border-radius: 20px; }
+.clink--big b { display: block; font: 600 clamp(17px, 4.6vw, 21px)/1.25 var(--display); letter-spacing: -.01em; }
+.clink--big em { display: block; font-size: 13.5px; color: var(--mute); margin-top: 2px; }
 
 /* ===== Pastki qism ===== */
 .foot { position: relative; overflow: hidden; background: var(--band); color: var(--band-ink); padding: 48px 0 112px; margin-top: 30px; }
@@ -488,6 +496,8 @@ body.cta-in-view .callbar { transform: translateY(130%); }
   .btn--tg { width: 52px; }
   .hub__pill { font-size: 12px; padding: 5px 10px 5px 5px; gap: 6px; }
   .hub__pill .disc { width: 28px; height: 28px; font-size: 14px; }
+  .hub__item--r .hub__pill, .hub__item--l .hub__pill { font-size: 10.5px; padding: 5px 6px 6px; }
+  .hub { --gap: 5px; }
 }
 
 /* ===== Faqat telefon ===== */
@@ -558,14 +568,13 @@ body.cta-in-view .callbar { transform: translateY(130%); }
   .hero__hint { margin: 12px 0 14px; }
   .search__box kbd { display: block; }
   .hero__vis { margin: -30px; padding: 30px; }
-  .hub { width: min(44vw, 540px); aspect-ratio: 1 / .96; }
+  .hub { --half: 26%; --gap: 12px; width: min(44vw, 540px); aspect-ratio: 1 / .96; }
   .hub__item { left: var(--dx); top: var(--dy); }
-  .hub__core { width: 52%; }
   .hub__core i { inset: 12px; }
   .hub__r--1 { width: 106%; }
   .hub__r--2, .hub__sat { width: 88%; }
   .hub__r--3 { width: 62%; }
-  .hub__pill { font-size: 14.5px; padding: 8px 18px 8px 8px; gap: 10px; }
+  .hub__pill, .hub__item--r .hub__pill, .hub__item--l .hub__pill { flex-direction: row; font-size: 14.5px; padding: 8px 18px 8px 8px; gap: 10px; border-radius: 999px; }
   .hub__pill .disc { width: 38px; height: 38px; font-size: 18px; }
 
   .marquee { padding: 20px 0; }
@@ -616,6 +625,9 @@ body.cta-in-view .callbar { transform: translateY(130%); }
 @media (min-width: 1000px) and (max-width: 1179px) {
   .btn--tg { width: 62px; padding: 0; }
   .btn--tg span { display: none; }
+  .hub { --gap: 8px; }
+  .hub__pill, .hub__item--r .hub__pill, .hub__item--l .hub__pill { font-size: 12.5px; padding: 6px 14px 6px 6px; gap: 8px; }
+  .hub__pill .disc { width: 32px; height: 32px; font-size: 15px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

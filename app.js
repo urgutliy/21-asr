@@ -11,7 +11,6 @@ const IC = {
   bolt: '<path d="M13 3 5 13.5h6L10 21l9-11h-6.5L13 3z"/>',
   shield: '<path d="M12 3 4.5 6v6c0 4.5 3.2 7.8 7.5 9 4.300-1.2 7.5-4.5 7.5-9V6L12 3z"/><path d="m9 12 2.2 2.2L15.2 10"/>',
   send: '<path d="M21 4 3 11l6 2.5L11.5 20 21 4z"/><path d="m9 13.5 5-4.5"/>',
-  insta: '<rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.7" cy="7.300" r=".6"/>',
   calc: '<rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M8.5 7.5h7M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/>',
   doc: '<path d="M7 3h7l4 4v14H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v4h4M9.5 16.5l5-5M9.8 11.8h.01M14.2 16.2h.01"/>',
   refund: '<path d="M4.5 12a7.5 7.5 0 1 0 2.300-5.4"/><path d="M4 4.5V8h3.5M9.5 14.5l5-5M9.8 9.8h.01M14.2 14.2h.01"/>',
@@ -73,14 +72,21 @@ const head = ({ tag, n, title, lead, extra = "" }) => `
   </div>`;
 const itemCard = (s, { dir = false, n = "", r = true } = {}) => `<a class="card item" href="#/xizmat/${s.id}"${r ? " data-r" : ""}>${n ? `<i>${n}</i>` : ""}<span><b>${s.n}</b><small>${dir ? s.dir.title : s.k}</small></span><span>${ic("arrow")}</span></a>`;
 const stepsList = () => `<ol class="steps">${STEPS.map((s, i) => `<li class="step" data-r><span class="disc">${ic(s.icon)}</span><span class="step__n">${i + 1}-qadam</span><h3>${s.title}</h3><p>${s.text}</p></li>`).join("")}</ol>`;
-const ctaBox = () => `<div class="cta" data-r><div><h2>Narx va muddatni ${CONTACT.short} orqali bilib oling</h2><p>Qo'ng'iroq qiling — hammasini telefonda tushuntiramiz.</p></div>${callBtn("btn--light")}<a class="btn btn--ghost" href="${CONTACT.telegram[0].url}" target="_blank" rel="noopener">${ic("send")}Telegram</a></div>`;
+const ctaBox = () => `<div class="cta" data-r><div><h2>Narx va muddatni ${CONTACT.short} orqali bilib oling</h2><p>Qo'ng'iroq qiling — hammasini telefonda tushuntiramiz.</p></div>${callBtn("btn--light")}<a class="btn btn--ghost" href="${CONTACT.telegram.url}" target="_blank" rel="noopener">${ic("send")}Telegram</a></div>`;
 
-// Doira atrofidagi yo'nalishlar joyi, foizda: [telefon x, y, kompyuter x, y]
-const HUB_POS = [[50, 7, 50, 6], [77, 22, 83, 20], [76, 78, 83, 80], [50, 93, 50, 94], [24, 78, 17, 80], [23, 22, 17, 20]];
-const hubPos = (i, n) => {
-  if (n === HUB_POS.length) return HUB_POS[i];
-  const t = (-90 + (i * 360) / n) * Math.PI / 180, c = Math.cos(t), s = Math.sin(t);
-  return [50 + 30 * c, 50 + 43 * s, 50 + 34 * c, 50 + 44 * s].map((v) => +v.toFixed(1));
+// Doira atrofidagi yo'nalishlar joyi, foizda: [telefon x, y, kompyuter x, y].
+// null — o'ng va chap yon: u tugmalar doira chetiga yopishtiriladi (styles.css, .hub__item--r / --l).
+const HUB_POS = [[50, 7, 50, 6], [77, 22, 83, 20], null, [75, 78, 83, 80], [50, 93, 50, 94], [24, 78, 17, 80], null, [23, 22, 17, 20]];
+const hubItem = (x, i, n) => {
+  const pill = `<a class="hub__pill" href="${x.to}"><span class="disc">${ic(x.icon)}</span>${x.label}</a>`;
+  let p = HUB_POS[i];
+  if (n !== HUB_POS.length) {
+    // ro'yxat uzunligi o'zgarsa, tugmalar doira bo'ylab teng taqsimlanadi
+    const t = (-90 + (i * 360) / n) * Math.PI / 180, c = Math.cos(t), s = Math.sin(t);
+    p = [50 + 30 * c, 50 + 43 * s, 50 + 34 * c, 50 + 44 * s].map((v) => +v.toFixed(1));
+  }
+  if (!p) return `<div class="hub__item hub__item--${i < n / 2 ? "r" : "l"}" style="--i:${i}">${pill}</div>`;
+  return `<div class="hub__item" style="--i:${i};--mx:${p[0]}%;--my:${p[1]}%;--dx:${p[2]}%;--dy:${p[3]}%">${pill}</div>`;
 };
 const hub = () => `
   <div class="hub" id="hub">
@@ -88,7 +94,7 @@ const hub = () => `
     <span class="hub__r hub__r--1"></span><span class="hub__r hub__r--2"></span><span class="hub__r hub__r--3"></span>
     <span class="hub__sat"><i></i><i></i><i></i></span>
     <div class="hub__core"><i></i><img src="assets/logo.png" width="956" height="361" alt="21-ASR — raqamli xizmatlar markazi"></div>
-    ${HUB.map((x, i) => { const p = hubPos(i, HUB.length); return `<div class="hub__item" style="--i:${i};--mx:${p[0]}%;--my:${p[1]}%;--dx:${p[2]}%;--dy:${p[3]}%"><a class="hub__pill" href="${x.to}"><span class="disc">${ic(x.icon)}</span>${x.label}</a></div>`; }).join("")}
+    ${HUB.map((x, i) => hubItem(x, i, HUB.length)).join("")}
   </div>`;
 
 const marquee = () => {
@@ -114,7 +120,7 @@ const newsCard = (n, i) => `<a class="card news${i ? "" : " news--big"}" href="#
 
 /* ===== Bosh sahifa ===== */
 function home() {
-  const tg = CONTACT.telegram[0].url;
+  const tg = CONTACT.telegram.url;
   return `
   <section class="hero" id="hero">
     <i class="plus" style="left:5%;top:4%"></i><i class="plus" style="right:7%;top:38%"></i><i class="plus" style="left:47%;bottom:5%"></i>
@@ -194,7 +200,7 @@ function home() {
         <div class="branch__map"><iframe loading="lazy" title="${b.name} xaritada" src="https://www.google.com/maps?q=${encodeURIComponent(b.map)}&z=16&output=embed"></iframe><b>${pad(i + 1)}</b></div>
         <div class="branch__b">
           <h3>${b.name}</h3>
-          <div class="row">${ic("pin")}<span><b>Mo'ljal:</b> ${b.landmark}</span></div>
+          <div class="row">${ic("pin")}<span><b>Manzil:</b> ${b.landmark}</span></div>
           <div class="row">${ic("clock")}<span><b>Ish vaqti:</b> ${CONTACT.hours}</span></div>
           <div class="branch__a"><a class="btn" href="tel:${CONTACT.short}">${ic("phone")}${CONTACT.short}</a><a class="btn btn--ghost" href="${b.link}" target="_blank" rel="noopener">${ic("pin")}Xaritada ochish</a></div>
         </div>
@@ -219,12 +225,10 @@ function home() {
         <h2 class="h2">Savolingiz bormi? <em>Qo'ng'iroq qiling.</em></h2>
         <p class="lead">Qaysi hujjat kerakligini, narx va muddatni telefonda aytamiz.</p>
         <a class="contact__big" href="tel:${CONTACT.short}" aria-label="${CONTACT.short} ga qo'ng'iroq qilish">${CONTACT.short}</a>
-        ${callBtn()}
       </div>
       <div class="clist">
-        ${CONTACT.phones.map((p) => `<a class="clink" href="tel:${p.replace(/[^+\d]/g, "")}"><span class="disc disc--sm">${ic("phone")}</span><span><small>Telefon</small><b>${p}</b></span>${ic("arrow")}</a>`).join("")}
-        ${CONTACT.telegram.map((t) => `<a class="clink" href="${t.url}" target="_blank" rel="noopener"><span class="disc disc--sm">${ic("send")}</span><span><small>Telegram</small><b>${t.name}</b></span>${ic("arrow")}</a>`).join("")}
-        <a class="clink" href="${CONTACT.instagram.url}" target="_blank" rel="noopener"><span class="disc disc--sm">${ic("insta")}</span><span><small>Instagram</small><b>${CONTACT.instagram.name}</b></span>${ic("arrow")}</a>
+        <a class="clink clink--big" href="tel:${CONTACT.short}"><span class="disc"><span class="ring">${ic("phone")}</span></span><span><small>Qisqa raqam</small><b>${CONTACT.short}</b><em>Qo'ng'iroq qilish</em></span>${ic("arrow")}</a>
+        <a class="clink clink--big" href="${CONTACT.telegram.url}" target="_blank" rel="noopener"><span class="disc">${ic("send")}</span><span><small>Telegram</small><b>${CONTACT.telegram.name}</b><em>Yozing — javob beramiz</em></span>${ic("arrow")}</a>
       </div>
     </div>
   </div></section>`;
@@ -307,7 +311,7 @@ function footer() {
     <div class="foot__cols">
       <div><h4>Xizmatlar</h4>${DIRECTIONS.map((d) => `<a href="#/yonalish/${d.id}">${d.title}</a>`).join("")}</div>
       <div><h4>Filiallar</h4><ul>${BRANCHES.map((b) => `<li><b>${b.name}</b>${b.landmark}</li>`).join("")}</ul></div>
-      <div><h4>Aloqa</h4><a href="tel:${CONTACT.short}">Qisqa raqam: ${CONTACT.short}</a>${CONTACT.phones.map((p) => `<a href="tel:${p.replace(/[^+\d]/g, "")}">${p}</a>`).join("")}${CONTACT.telegram.map((t) => `<a href="${t.url}" target="_blank" rel="noopener">Telegram: ${t.name}</a>`).join("")}<a href="${CONTACT.instagram.url}" target="_blank" rel="noopener">Instagram: ${CONTACT.instagram.name}</a></div>
+      <div><h4>Aloqa</h4><a href="tel:${CONTACT.short}">Qisqa raqam: ${CONTACT.short}</a><a href="${CONTACT.telegram.url}" target="_blank" rel="noopener">Telegram: ${CONTACT.telegram.name}</a></div>
     </div>
     <div class="foot__big" aria-hidden="true">${CONTACT.short}</div>
     <div class="foot__bottom"><span>© 2026 21-ASR Online Xizmatlar Markazi</span><span>Samarqand · Urgut · Pastdarg'om · ${CONTACT.hours}</span></div>
@@ -455,6 +459,7 @@ function route() {
 
 /* ===== Hodisalar ===== */
 document.querySelectorAll("[data-ic]").forEach((el) => { el.innerHTML = ic(el.dataset.ic); });
+document.querySelectorAll("[data-tg]").forEach((el) => { el.href = CONTACT.telegram.url; });
 footer();
 
 burger.addEventListener("click", () => {

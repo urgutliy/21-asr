@@ -1,36 +1,36 @@
 // Sayt matnlari shu faylda. Xizmat, filial yoki yangilik qo'shish uchun faqat shu faylni tahrirlang.
 
+// Aloqa uchun faqat qisqa raqam va bitta Telegram ko'rsatiladi.
 const CONTACT = {
   short: "1832",
-  phones: ["+998 (55) 701-21-00", "+998 (99) 223-11-13", "+998 (99) 223-11-12"],
-  telegram: [
-    { name: "@asr1832", url: "https://t.me/asr1832" },
-    { name: "@asrbux_21", url: "https://t.me/asrbux_21" }
-  ],
-  instagram: { name: "@21asr_markazi", url: "https://instagram.com/21asr_markazi" },
+  telegram: { name: "@asrbux_21", url: "https://t.me/asrbux_21" },
   hours: "8:00–18:00"
 };
 
+// Manzil matnlari kompaniyaning "Bizning manzillar" xabaridan olingan.
 // map — xaritadagi aniq nuqta (kenglik,uzunlik). link — "Xaritada ochish" tugmasi ochadigan Google Maps havolasi.
 const BRANCHES = [
-  { name: "Samarqand shahar filiali", landmark: "Davlat xizmatlari markazi (Yagona darcha) binosi podvalida", map: "39.6472335,66.9342426", link: "https://maps.app.goo.gl/TFsX7PY13gq6Wyv7A" },
-  { name: "Urgut tumani filiali", landmark: "Davlat xizmatlari markazi (Yagona darcha) ro'parasida", map: "39.4286881,67.2387248", link: "https://maps.app.goo.gl/34iFWc2sx3ciwDHdA" },
-  { name: "Pastdarg'om filiali", landmark: "Davlat xizmatlari markazi (Yagona darcha) ro'parasida", map: "39.7112222,66.6693611", link: "https://maps.app.goo.gl/tPgWMcPjtnra76Be6" }
+  { name: "Bosh ofis — Urgut", landmark: "Urgut Davlat xizmatlari markazi (Yagona darcha) ro'parasida", map: "39.4286881,67.2387248", link: "https://maps.app.goo.gl/34iFWc2sx3ciwDHdA" },
+  { name: "Samarqand ofisi", landmark: "Samarqand shahar Davlat xizmatlari markazi (Yagona darcha) pastki qismida", map: "39.6472335,66.9342426", link: "https://maps.app.goo.gl/TFsX7PY13gq6Wyv7A" },
+  { name: "Pastdarg'om ofisi", landmark: "Pastdarg'om Davlat xizmatlari markazi (Yagona darcha) ro'parasida", map: "39.7112222,66.6693611", link: "https://maps.app.goo.gl/tPgWMcPjtnra76Be6" }
 ];
 
-// Birinchi ekrandagi doira: o'rtada logo, atrofida shu yo'nalishlar (tepadan boshlab, soat mili bo'yicha).
+// Birinchi ekrandagi doira: o'rtada logo, atrofida shu 8 yo'nalish (tepadan boshlab, soat mili bo'yicha).
+// 3-o'rin doiraning o'ng yoni, 7-o'rin chap yoni — u yerda joy tor, shuning uchun qisqa nom qo'ying.
 // to — bosilganda ochiladigan sahifa.
 const HUB = [
   { label: "Online xizmatlar", icon: "screen", to: "#/s/xizmatlar" },
   { label: "Buxgalteriya", icon: "calc", to: "#/yonalish/buxgalteriya" },
   { label: "Pechat", icon: "stamp", to: "#/yonalish/pechat-kassa" },
+  { label: "12% qaytarish", icon: "refund", to: "#/yonalish/12-foiz" },
   { label: "Yagona darcha xizmatlari", icon: "bank", to: "#/yonalish/yagona-darcha" },
+  { label: "Auksion", icon: "gavel", to: "#/yonalish/auksion" },
   { label: "Soliq", icon: "doc", to: "#/yonalish/soliq" },
   { label: "Tarjimonlik", icon: "globe", to: "#/yonalish/apostil" }
 ];
 
 const WHY = [
-  { icon: "pin", title: "Davlat xizmatlari markazi yonida", text: "Uchala filialimiz ham Yagona darcha binosining o'zida yoki ro'parasida. Uzoqqa borish shart emas." },
+  { icon: "pin", title: "Davlat xizmatlari markazi yonida", text: "Bosh ofis — Urgut Davlat xizmatlari markazi (Yagona darcha) ro'parasida. Samarqandda — markazning pastki qismida. Pastdarg'omda — markaz ro'parasida." },
   { icon: "bolt", title: "Navbatsiz", text: "Navbatda turmaysiz. Hujjatni topshirasiz, qolganini biz hal qilamiz." },
   { icon: "shield", title: "Qonuniy kafolat", text: "Har bir hujjat amaldagi qonunchilik asosida tayyorlanadi. Jarima va tekshiruvdan xotirjam bo'lasiz." }
 ];
@@ -39,13 +39,13 @@ const WHY = [
 const DIRECTIONS = [
   {
     id: "buxgalteriya", icon: "calc", title: "Buxgalteriya xizmatlari",
-    tags: ["Hisob yuritish", "Hisobni tiklash", "1C"],
-    short: "Korxona va YaTT hisobini yuritamiz, tiklaymiz, 1C da ishlaymiz.",
-    hook: "Hisobotlar va 1C bosh og'riqlaridan xalos bo'ling.",
+    tags: ["Hisob yuritish", "Hisobni tiklash", "Buxgalteriya dasturi"],
+    short: "Korxona va YaTT hisobini yuritamiz, tiklaymiz, buxgalteriya dasturida ishlaymiz.",
+    hook: "Hisobotlar va buxgalteriya bosh og'riqlaridan xalos bo'ling.",
     services: [
       { id: "hisob-yuritish", n: "Buxgalteriya hisobini yuritish", d: "Korxonangiz yoki YaTTingizning kirim-chiqimi, oylik va hisobotlarini har oy biz yuritamiz. Sizga alohida buxgalter yollash shart emas.", k: "Korxona egalari va YaTTlar, ayniqsa o'z buxgalteri bo'lmaganlar.", h: ["Rahbarning pasporti yoki ID-kartasi", "Guvohnoma va ustav (korxona uchun)", "Bank ko'chirmalari", "Shartnoma, hisob-faktura va boshqa birlamchi hujjatlar", "Elektron raqamli imzo (ERI)"], q: "buxgalter hisob-kitob korxona yatt oylik balans бухгалтер бухгалтерия" },
       { id: "hisob-tiklash", n: "Buxgalteriya hisobini tiklash", d: "Hisob-kitob chalkashib ketgan yoki bir necha oy yuritilmagan bo'lsa, hammasini boshidan tartibga keltiramiz.", k: "Hisoboti kechikkan, buxgalteri ketib qolgan yoki hujjatlari chalkash korxona va YaTTlar.", h: ["Rahbarning pasporti yoki ID-kartasi", "O'tgan davr bank ko'chirmalari", "Bor bo'lgan shartnoma va hisob-fakturalar", "Oldin topshirilgan hisobotlar (bo'lsa)", "Elektron raqamli imzo (ERI)"], q: "tiklash chalkash eski hisobot qarz восстановление" },
-      { id: "1c", n: "1C dasturi bilan ishlash", d: "Hisobingizni 1C dasturida yuritamiz: ma'lumot kiritish, sozlash va hisobotlarni chiqarish.", k: "1C da ishlaydigan yoki 1C ga o'tmoqchi bo'lgan korxonalar.", h: ["Korxona rekvizitlari", "1C bazasi (mavjud bo'lsa)", "Birlamchi hujjatlar", "Elektron raqamli imzo (ERI)"], q: "1s 1с 1c dastur baza программа" }
+      { id: "buxgalteriya-dasturi", n: "Buxgalteriya dasturi bilan ishlash", d: "Hisobingizni buxgalteriya dasturida yuritamiz: ma'lumot kiritish, sozlash va hisobotlarni chiqarish.", k: "Hisobini dasturda yuritadigan yoki dasturga o'tmoqchi bo'lgan korxonalar.", h: ["Korxona rekvizitlari", "Dastur bazasi (mavjud bo'lsa)", "Birlamchi hujjatlar", "Elektron raqamli imzo (ERI)"], q: "1s 1с 1c dastur baza программа" }
     ]
   },
   {
@@ -132,7 +132,7 @@ const NEWS = [
   { id: "kontrakt-12", tag: "Talabalarga", hook: "Talabamisiz? Kontraktingizdan 12% pulingizni qaytarib olishni bilasizmi?", body: ["Kontrakt uchun to'lagan pulingizning 12% i daromad solig'idan qaytariladi. To'lovni o'zingiz yoki ota-onangiz qilgan bo'lsa ham bo'ladi.", "Asosiy shart: to'lovchi rasmiy ishlaydi va oyligidan soliq ushlanadi."], docs: ["Pasport yoki ID-karta", "O'qish shartnomasi", "To'lov kvitansiyalari"], link: "kontrakt" },
   { id: "navbat", tag: "Yagona darcha", hook: "Navbatda charchadingizmi?", body: ["YaTT ochish, tonirovka, ishonchnoma, sudlanmaganlik ma'lumotnomasi va yana 700 dan ortiq xizmat endi bir joyda.", "Filiallarimiz Davlat xizmatlari markazining yonida. Hujjatni olib keling, qolganini biz qilamiz."], docs: ["Pasport yoki ID-karta", "Xizmatga tegishli hujjatlar"], link: "yatt-ochish" },
   { id: "tekshiruv", tag: "Tadbirkorlarga", hook: "Soliqdan xat keldimi? Jarimadan oldin xatoni toping.", body: ["Kameral yoki audit tekshiruvidan oldin hujjatlaringizni ko'rib chiqamiz va xatolarni ko'rsatamiz.", "Xato oldindan tuzatilsa, jarima va ortiqcha tashvishdan qutulasiz."], docs: ["Soliqdan kelgan xabarnoma", "Topshirilgan hisobotlar", "Bank ko'chirmalari"], link: "tekshiruv-oldi" },
-  { id: "pastdargom", tag: "Filial", hook: "Pastdarg'omda ham xizmatdamiz", body: ["Pastdarg'om filialimiz Davlat xizmatlari markazi (Yagona darcha) ro'parasida joylashgan.", "Barcha 7 yo'nalishdagi xizmatlar shu yerda ham ko'rsatiladi. Ish vaqti: 8:00–18:00."], docs: [], link: null }
+  { id: "pastdargom", tag: "Filial", hook: "Pastdarg'omda ham xizmatdamiz", body: ["Pastdarg'omdagi ofisimiz Davlat xizmatlari markazi (Yagona darcha) ro'parasida joylashgan.", "Barcha 7 yo'nalishdagi xizmatlar shu yerda ham ko'rsatiladi. Ish vaqti: 8:00–18:00."], docs: [], link: null }
 ];
 
 // Bosh sahifadagi yuguruvchi qator
@@ -140,7 +140,7 @@ const TICKER = ["YaTT ochish", "Tonirovka", "Apostil", "12% qaytarish", "Soliq h
 
 // "Siz kimsiz?" bo'limi. hook — brandbookdagi auditoriya shiorlari, services — xizmat id lari
 const AUDIENCE = [
-  { id: "tadbirkor", label: "Tadbirkorman", icon: "brief", hook: "Hisobotlar va 1C bosh og'riqlaridan xalos bo'ling.", text: "Buxgalteriya, soliq hisoboti va tekshiruvdan oldingi tahlilni bizga topshiring. Vaqtingiz biznesga qolsin.", services: ["hisob-yuritish", "soliq-hisobot", "tekshiruv-oldi", "yatt-ochish", "kassa-sotish"] },
+  { id: "tadbirkor", label: "Tadbirkorman", icon: "brief", hook: "Hisobotlar va buxgalteriya bosh og'riqlaridan xalos bo'ling.", text: "Buxgalteriya, soliq hisoboti va tekshiruvdan oldingi tahlilni bizga topshiring. Vaqtingiz biznesga qolsin.", services: ["hisob-yuritish", "soliq-hisobot", "tekshiruv-oldi", "yatt-ochish", "kassa-sotish"] },
   { id: "talaba", label: "Talabaman", icon: "cap", hook: "Kontraktingizdan 12% pulingizni qaytarib olishni bilasizmi?", text: "Kontrakt to'lovidan soliqni qaytarish hujjatlarini biz tayyorlaymiz. Chet elga o'qishga ketsangiz, apostil va tarjima ham shu yerda.", services: ["kontrakt", "apostil-xizmat", "notarial-tarjima"] },
   { id: "ota-ona", label: "Ota-onaman", icon: "users", hook: "To'langan pulingizning 12% ini davlatdan rasman qaytarib oling!", text: "Farzandingizning kontrakti, xususiy maktabi yoki ipotekangiz uchun to'lagan pulingizdan soliqni qaytarib olasiz.", services: ["xususiy-maktab", "kontrakt", "ipoteka"] },
   { id: "haydovchi", label: "Haydovchiman", icon: "car", hook: "Navbatlarsiz, bir joyda tez hal qiling.", text: "Tonirovka, taksi litsenziyasi, chiroyli raqam yoki ishonchnoma — mashinangizga tegishli hujjatlar bir joyda.", services: ["tonirovka", "taksi", "avtoraqam", "qayta-jihozlash", "ishonchnoma"] },
@@ -164,9 +164,9 @@ const STEPS = [
 
 const FAQ = [
   { q: "Xizmat narxi qancha?", a: "Narx xizmat turiga qarab har xil. Aniq narx va muddatni 1832 raqamiga qo'ng'iroq qilib bilib oling." },
-  { q: "Qayerda joylashgansiz?", a: "Uchta filialimiz bor: Samarqand shahri, Urgut va Pastdarg'om. Uchalasi ham Davlat xizmatlari markazi (Yagona darcha) binosida yoki uning ro'parasida." },
+  { q: "Qayerda joylashgansiz?", a: "Uchta ofisimiz bor. Bosh ofis — Urgut Davlat xizmatlari markazi (Yagona darcha) ro'parasida. Samarqand shahrida — markazning pastki qismida. Pastdarg'omda — markaz ro'parasida." },
   { q: "Ish vaqtingiz qanday?", a: "Filiallarimiz 8:00 dan 18:00 gacha ishlaydi." },
   { q: "Qaysi hujjatlarni olib kelishim kerak?", a: "Har bir xizmat sahifasida hujjatlar ro'yxati yozilgan. Adashmaslik uchun kelishdan oldin 1832 ga qo'ng'iroq qilib aniqlab oling." },
   { q: "Kerakli xizmatni saytdan topa olmadim. Nima qilay?", a: "Saytda eng ko'p so'raladigan xizmatlar yozilgan. Jami 1000 dan ortiq xizmat bor — keragini 1832 orqali so'rang." },
-  { q: "Telegram orqali murojaat qilsam bo'ladimi?", a: "Ha. Telegramda @asr1832 ga yozing — savolingizga javob beramiz va keyingi qadamni aytamiz." }
+  { q: "Telegram orqali murojaat qilsam bo'ladimi?", a: "Ha. Telegramda @asrbux_21 ga yozing — savolingizga javob beramiz va keyingi qadamni aytamiz." }
 ];
