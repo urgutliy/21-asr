@@ -22,7 +22,7 @@ const HUB = [
   { label: "Online xizmatlar", icon: "screen", to: "#/s/xizmatlar" },
   { label: "Buxgalteriya", icon: "calc", to: "#/yonalish/buxgalteriya" },
   { label: "Pechat", icon: "stamp", to: "#/yonalish/pechat-kassa" },
-  { label: "12% qaytarish", icon: "refund", to: "#/yonalish/12-foiz" },
+  { label: "Kassa apparat", icon: "kassa", to: "#/xizmat/kassa-sotish" },
   { label: "Yagona darcha xizmatlari", icon: "bank", to: "#/yonalish/yagona-darcha" },
   { label: "Auksion", icon: "gavel", to: "#/yonalish/auksion" },
   { label: "Soliq", icon: "doc", to: "#/yonalish/soliq" },
